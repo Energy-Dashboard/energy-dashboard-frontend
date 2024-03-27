@@ -19,14 +19,14 @@ function App() {
   }, []);
 
   return (
-    <>
+    <main className="min-h-screen">
       <h1 className="text-center text-2xl py-5 bg-[#333]">
         ☀️ ENERGY DASHBOARD ☀️
       </h1>
       {data ? <BarChart /> : (
         <p>Loading...</p>
       )}
-    </>
+    </main>
   );
 }
 
