@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BarChart from "../components/BarChart";
+import Form from "../components/Form";
 
 function App() {
+  let [baseUrl, setUrl] = useState("http://localhost:3000/energies");
   const [data, setData] = useState(null);
-  let [baseUrl, setUrl] = useState("http://localhost:3000/energies?");
+  const [countries, setCountries] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(baseUrl);
+        let response = await axios.get(baseUrl);
         setData(response.data);
+        if (countries === "") {
+          response = await axios.get("http://localhost:3000/countries");
+          setCountries(response.data);
+        }
       } catch (error) {
         console.error("Error:", error);
       }
@@ -18,19 +24,8 @@ function App() {
     fetchData();
   }, [baseUrl]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (newUrl) => {
     setData(null);
-    e.preventDefault();
-    let newUrl = "http://localhost:3000/energies?";
-    let query = e.target.elements;
-    for (let i = 0; i < query.length; i++) {
-      if (query[i].name) {
-        if (query[i].value !== "") {
-          newUrl += `${query[i].name}=${query[i].value}`;
-        }
-      }
-    }
-
     setUrl(newUrl);
   };
 
@@ -40,22 +35,15 @@ function App() {
         ☀️ ENERGY DASHBOARD ☀️
       </h1>
       <p>{baseUrl}</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="entity"
-          placeholder="Entity"
-          className="text-black"
-        />
-      </form>
-      {data ? (
+      {data && countries ? (
         <>
-          <BarChart data={data} />
-          {data.map((energy) => (
-            <p key={energy._id}>
-              <span>{energy.entity}</span>
+          {data.map((item) => (
+            <p key={item._id}>
+              {item.entity}-{item.year}
             </p>
           ))}
+          <BarChart data={data} />
+          <Form handleSubmit={handleSubmit} data={data} countries={countries} />
         </>
       ) : (
         <p>Loading...</p>
