@@ -48,6 +48,7 @@ function App() {
       ) : (
         <p>Loading...</p>
       )}
+      console.log(data)
     </main>
   );
 }

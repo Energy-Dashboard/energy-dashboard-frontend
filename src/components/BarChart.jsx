@@ -22,43 +22,35 @@ const BarChart = ({ data }) => {
         return "#" + Math.floor(Math.random() * 16777215).toString(16);
       };
 
-      const params = new URLSearchParams(location.search);
+      const dataByYearAndCountry = data.reduce((acc, item) => {
+        if (!acc[item.year]) {
+          acc[item.year] = {};
+        }
+        acc[item.year][item.entity] = item.accessElectricity;
+        return acc;
+      }, {});
 
-      let filteredData;
-      if (params.toString()) {
-        // eslint-disable-next-line react/prop-types
-        filteredData = data.filter((item) => {
-          for (let [key, value] of params) {
-            if (item[key] !== value) {
-              return false;
-            }
-          }
-          return true;
-        });
-      } else {
-        // eslint-disable-next-line react/prop-types
-        filteredData = data.filter(
-          (item) => item.year === 2020 && item.fossilElectricity > 2
-        );
-      }
+      // Get labels (years)
+      const labels = Object.keys(dataByYearAndCountry);
 
-      const labels = filteredData.slice(0, 10).map((item) => item.entity);
-      const values = filteredData
-        .slice(0, 10)
-        .map((item) => item.accessElectricity);
+      // Get unique countries
+      const countries = [...new Set(data.map(item => item.entity))];
+
+      // Create a dataset for each country
+      const datasets = countries.map(country => {
+        const data = labels.map(year => dataByYearAndCountry[year][country] || 0);
+        return {
+          label: country,
+          data: data,
+          backgroundColor: randomColor(),
+          // other properties...
+        };
+      });
+        
 
       const datos = {
         labels: labels,
-        datasets: [
-          {
-            label: "Access to Electricity",
-            data: values,
-            borderWidth: 1,
-            backgroundColor: Array(values.length)
-              .fill()
-              .map(() => randomColor()),
-          },
-        ],
+        datasets: datasets,
       };
 
       myChart = new Chart(ctx, {
