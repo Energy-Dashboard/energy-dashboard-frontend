@@ -34,21 +34,16 @@ function App() {
       <h1 className="text-center text-2xl py-5 bg-[#333] w-full">
         ☀️ ENERGY DASHBOARD ☀️
       </h1>
-      <p>{baseUrl}</p>
-      {data && countries ? (
-        <>
-          {data.map((item) => (
-            <p key={item._id}>
-              {item.entity}-{item.year}
-            </p>
-          ))}
-          <BarChart data={data} />
-          <Form handleSubmit={handleSubmit} data={data} countries={countries} />
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
-      console.log(data)
+      <div className="py-5">
+        {data && countries ? (
+          <>
+            <BarChart data={data}/>
+            <Form handleSubmit={handleSubmit} data={data} countries={countries} />
+          </>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
     </main>
   );
 }
