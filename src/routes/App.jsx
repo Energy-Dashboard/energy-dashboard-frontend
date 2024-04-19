@@ -3,8 +3,10 @@ import axios from "axios";
 import BarChart from "../components/BarChart";
 import Form from "../components/Form";
 
+const URL = import.meta.env.VITE_BACKEND_URL;
+
 function App() {
-  let [baseUrl, setUrl] = useState("http://localhost:3000/energies");
+  let [baseUrl, setUrl] = useState(`${URL}/energies`);
   const [data, setData] = useState(null);
   const [countries, setCountries] = useState("");
 
@@ -14,7 +16,7 @@ function App() {
         let response = await axios.get(baseUrl);
         setData(response.data);
         if (countries === "") {
-          response = await axios.get("http://localhost:3000/countries");
+          response = await axios.get(`${URL}/countries`);
           setCountries(response.data);
         }
       } catch (error) {
@@ -37,8 +39,12 @@ function App() {
       <div className="py-5">
         {data && countries ? (
           <>
-            <BarChart data={data}/>
-            <Form handleSubmit={handleSubmit} data={data} countries={countries} />
+            <BarChart data={data} />
+            <Form
+              handleSubmit={handleSubmit}
+              data={data}
+              countries={countries}
+            />
           </>
         ) : (
           <p>Loading...</p>

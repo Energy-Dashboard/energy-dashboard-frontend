@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const URL = import.meta.env.VITE_BACKEND_URL;
+
 const Form = ({ handleSubmit, data, countries }) => {
   const [selectedCountries, setSelectedCountries] = useState(
     JSON.parse(localStorage.getItem("selectedCountries")) || []
@@ -34,7 +36,7 @@ const Form = ({ handleSubmit, data, countries }) => {
   const onSubmit = (event) => {
     event.preventDefault();
     let selectedCountriesString = selectedCountries.join(",");
-    let newUrl = "http://localhost:3000/energies?";
+    let newUrl = `${URL}/energies?`;
     let queryParams = event.target.querySelectorAll("input[type=text]");
 
     if (selectedCountriesString !== "") {
