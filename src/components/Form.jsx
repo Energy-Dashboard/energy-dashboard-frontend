@@ -58,6 +58,11 @@ const Form = ({ handleSubmit, data, countries }) => {
       onSubmit={onSubmit}
       className="flex flex-col justify-center items-center w-full"
     >
+      <input
+        className="m-10 p-3 bg-red-500 rounded-md w-[300px] cursor-pointer hover:bg-red-600 fixed bottom-10 right-0"
+        type="submit"
+        value="Submit"
+      />
       <div className="grid grid-cols-5 gap-5">
         {countries.map((country, index) => (
           <div key={index} className="flex items-center gap-2">
@@ -106,11 +111,6 @@ const Form = ({ handleSubmit, data, countries }) => {
           );
         })}
       </div>
-      <input
-        className="m-10 p-3 bg-red-500 rounded-md w-[300px] cursor-pointer hover:bg-red-600"
-        type="submit"
-        value="Submit"
-      />
     </form>
   );
 };
