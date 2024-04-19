@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
 
 const Form = ({ handleSubmit, data, countries }) => {
-  const [selectedCountries, setSelectedCountries] = useState(JSON.parse(localStorage.getItem("selectedCountries")) || []);
+  const [selectedCountries, setSelectedCountries] = useState(
+    JSON.parse(localStorage.getItem("selectedCountries")) || []
+  );
   let referencedData = data[0];
 
   useEffect(() => {
-    localStorage.setItem("selectedCountries", JSON.stringify(selectedCountries));
+    localStorage.setItem(
+      "selectedCountries",
+      JSON.stringify(selectedCountries)
+    );
   }, [selectedCountries]);
 
   const handleCheckboxChange = (event) => {
@@ -17,7 +22,9 @@ const Form = ({ handleSubmit, data, countries }) => {
       });
     } else {
       setSelectedCountries((prevCountries) => {
-        const newCountries = prevCountries.filter((country) => country !== event.target.value);
+        const newCountries = prevCountries.filter(
+          (country) => country !== event.target.value
+        );
         localStorage.setItem("selectedCountries", JSON.stringify(newCountries));
         return newCountries;
       });
@@ -60,7 +67,10 @@ const Form = ({ handleSubmit, data, countries }) => {
               name="country"
               value={country}
               onChange={handleCheckboxChange}
-              checked={Array.isArray(selectedCountries) && selectedCountries.includes(country)}
+              checked={
+                Array.isArray(selectedCountries) &&
+                selectedCountries.includes(country)
+              }
             />
             <label htmlFor={country}>{country}</label>
           </div>
@@ -97,7 +107,7 @@ const Form = ({ handleSubmit, data, countries }) => {
         })}
       </div>
       <input
-        className="m-10 p-3 bg-red-500 rounded-md w-[300px] "
+        className="m-10 p-3 bg-red-500 rounded-md w-[300px] cursor-pointer hover:bg-red-600"
         type="submit"
         value="Submit"
       />
