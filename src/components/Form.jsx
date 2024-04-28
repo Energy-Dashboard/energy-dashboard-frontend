@@ -1,35 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
 const Form = ({ handleSubmit, data, countries }) => {
-  const [selectedCountries, setSelectedCountries] = useState(
-    JSON.parse(localStorage.getItem("selectedCountries")) || []
-  );
+  const [selectedCountries, setSelectedCountries] = useState([]);
   let referencedData = data[0];
-
-  useEffect(() => {
-    localStorage.setItem(
-      "selectedCountries",
-      JSON.stringify(selectedCountries)
-    );
-  }, [selectedCountries]);
 
   const handleCheckboxChange = (event) => {
     if (event.target.checked) {
-      setSelectedCountries((prevCountries) => {
-        const newCountries = [...prevCountries, event.target.value];
-        localStorage.setItem("selectedCountries", JSON.stringify(newCountries));
-        return newCountries;
-      });
+      setSelectedCountries((prevCountries) => [
+        ...prevCountries,
+        event.target.value,
+      ]);
     } else {
-      setSelectedCountries((prevCountries) => {
-        const newCountries = prevCountries.filter(
-          (country) => country !== event.target.value
-        );
-        localStorage.setItem("selectedCountries", JSON.stringify(newCountries));
-        return newCountries;
-      });
+      setSelectedCountries((prevCountries) =>
+        prevCountries.filter((country) => country !== event.target.value)
+      );
     }
   };
 
@@ -46,7 +32,6 @@ const Form = ({ handleSubmit, data, countries }) => {
     queryParams.forEach((input) => {
       if (input.value !== "") {
         newUrl += `&${input.name}=${input.value}`;
-        localStorage.setItem(input.name, input.value);
       }
     });
 
@@ -74,10 +59,7 @@ const Form = ({ handleSubmit, data, countries }) => {
               name="country"
               value={country}
               onChange={handleCheckboxChange}
-              checked={
-                Array.isArray(selectedCountries) &&
-                selectedCountries.includes(country)
-              }
+              checked={selectedCountries.includes(country)}
             />
             <label htmlFor={country}>{country}</label>
           </div>
@@ -97,7 +79,6 @@ const Form = ({ handleSubmit, data, countries }) => {
                   type="text"
                   name={`min-${key}`}
                   className="bg-[#333333] p-2 rounded-md w-[400px]"
-                  defaultValue={localStorage.getItem(`min-${key}`)}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -106,7 +87,6 @@ const Form = ({ handleSubmit, data, countries }) => {
                   type="text"
                   name={`max-${key}`}
                   className="bg-[#333333] p-2 rounded-md w-[400px]"
-                  defaultValue={localStorage.getItem(`max-${key}`)}
                 />
               </div>
             </div>
