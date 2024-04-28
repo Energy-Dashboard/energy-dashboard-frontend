@@ -17,6 +17,16 @@ function Footer() {
       >
         Marchabar
       </a>
+      <br />
+      Datos obtenidos de{" "}
+      <a
+        href="https://www.kaggle.com/datasets/anshtanwar/global-data-on-sustainable-energy"
+        className="underline text-red-400"
+        target="_blank"
+      >
+        Kaggle
+      </a>
+      , por Ansh Antwar
     </footer>
   );
 }
