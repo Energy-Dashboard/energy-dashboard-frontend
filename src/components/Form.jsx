@@ -46,7 +46,7 @@ const Form = ({ handleSubmit, data, countries }) => {
       className="flex flex-col justify-center items-center w-full"
     >
       <input
-        className="m-10 p-3 bg-red-500 rounded-md w-[300px] cursor-pointer hover:bg-red-600 fixed bottom-10 right-0"
+        className="m-16 p-3 bg-red-500 rounded-md w-[300px] cursor-pointer hover:bg-red-600 fixed bottom-10 right-0"
         type="submit"
         value="Submit"
       />
