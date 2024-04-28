@@ -89,34 +89,52 @@ const BarChart = ({ data }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full pb-5 gap-4">
-      <select
-        value={dataType}
-        onChange={handleDataTypeChange}
-        className="bg-[#333] text-white"
-      >
-        <option value="accessElectricity">Access to electricity</option>
-        <option value="cleanFuels">Clean Fuels</option>
-        <option value="renewableCapacity">Renewable Capacity</option>
-        <option value="financialFlows">Financial Flows</option>
-        <option value="renewableEnergyShare">Renewable Energy Share</option>
-        <option value="fossilElectricity">Fossil Electricity</option>
-        <option value="nuclearElectricity">Nuclear Electricity</option>
-        <option value="renewablesElectricity">Renewables Electricity</option>
-        <option value="lowCarbonElectricity">Low Carbon Electricity</option>
-        <option value="primaryEnergyConsumption">
-          Primary Energy Consumption
-        </option>
-        <option value="energyIntensity">Energy Intensity</option>
-        <option value="co2Emissions">CO2 Emissions</option>
-        <option value="renewableEnergyPercent">Renewable Energy Percent</option>
-        <option value="gdpGrowth">GDP Growth</option>
-        <option value="gdpPerCapita">GDP Per Capita</option>
-        <option value="density">Density</option>
-      </select>
-      <div className="flex justify-center items-center bg-white">
-        <canvas id="myChart" ref={chartRef} width="400" height="400"></canvas>
-      </div>
+    <div className="flex flex-col items-center">
+      {data.length === 0 ? (
+        <h1 className="text-white font-bold text-2xl pb-4">
+          No hay datos disponibles con estos valores. Por favor, recargue la
+          página.
+        </h1>
+      ) : (
+        <div className="flex flex-col justify-center items-center w-full pb-5 gap-4">
+          <select
+            value={dataType}
+            onChange={handleDataTypeChange}
+            className="bg-[#333] text-white"
+          >
+            <option value="accessElectricity">Access to electricity</option>
+            <option value="cleanFuels">Clean Fuels</option>
+            <option value="renewableCapacity">Renewable Capacity</option>
+            <option value="financialFlows">Financial Flows</option>
+            <option value="renewableEnergyShare">Renewable Energy Share</option>
+            <option value="fossilElectricity">Fossil Electricity</option>
+            <option value="nuclearElectricity">Nuclear Electricity</option>
+            <option value="renewablesElectricity">
+              Renewables Electricity
+            </option>
+            <option value="lowCarbonElectricity">Low Carbon Electricity</option>
+            <option value="primaryEnergyConsumption">
+              Primary Energy Consumption
+            </option>
+            <option value="energyIntensity">Energy Intensity</option>
+            <option value="co2Emissions">CO2 Emissions</option>
+            <option value="renewableEnergyPercent">
+              Renewable Energy Percent
+            </option>
+            <option value="gdpGrowth">GDP Growth</option>
+            <option value="gdpPerCapita">GDP Per Capita</option>
+            <option value="density">Density</option>
+          </select>
+          <div className="flex justify-center items-center bg-white">
+            <canvas
+              id="myChart"
+              ref={chartRef}
+              width="400"
+              height="400"
+            ></canvas>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -4,7 +4,7 @@ const URL = import.meta.env.VITE_BACKEND_URL;
 
 const Form = ({ handleSubmit, data, countries }) => {
   const [selectedCountries, setSelectedCountries] = useState([]);
-  let referencedData = data[0];
+  let referencedData = data ? data[0] : {};
 
   const handleCheckboxChange = (event) => {
     if (event.target.checked) {
@@ -51,47 +51,50 @@ const Form = ({ handleSubmit, data, countries }) => {
         value="Submit"
       />
       <div className="grid grid-cols-5 gap-5">
-        {countries.map((country, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id={country}
-              name="country"
-              value={country}
-              onChange={handleCheckboxChange}
-              checked={selectedCountries.includes(country)}
-            />
-            <label htmlFor={country}>{country}</label>
-          </div>
-        ))}
+        {countries &&
+          referencedData &&
+          countries.map((country, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id={country}
+                name="country"
+                value={country}
+                onChange={handleCheckboxChange}
+                checked={selectedCountries.includes(country)}
+              />
+              <label htmlFor={country}>{country}</label>
+            </div>
+          ))}
       </div>
       <div className="flex flex-col justify-center items-center">
-        {Object.entries(referencedData).map(([key], index) => {
-          if (["entity", "_id", "__v"].includes(key)) {
-            return null;
-          }
+        {referencedData &&
+          Object.entries(referencedData).map(([key], index) => {
+            if (["entity", "_id", "__v"].includes(key)) {
+              return null;
+            }
 
-          return (
-            <div className="flex gap-24 mt-10" key={index}>
-              <div className="flex flex-col gap-2">
-                <label htmlFor={key}>(-) Minimum {key}</label>
-                <input
-                  type="text"
-                  name={`min-${key}`}
-                  className="bg-[#333333] p-2 rounded-md w-[400px]"
-                />
+            return (
+              <div className="flex gap-24 mt-10" key={index}>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor={key}>(-) Minimum {key}</label>
+                  <input
+                    type="text"
+                    name={`min-${key}`}
+                    className="bg-[#333333] p-2 rounded-md w-[400px]"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor={key}>(+) Maximum {key}</label>
+                  <input
+                    type="text"
+                    name={`max-${key}`}
+                    className="bg-[#333333] p-2 rounded-md w-[400px]"
+                  />
+                </div>
               </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor={key}>(+) Maximum {key}</label>
-                <input
-                  type="text"
-                  name={`max-${key}`}
-                  className="bg-[#333333] p-2 rounded-md w-[400px]"
-                />
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </form>
   );
